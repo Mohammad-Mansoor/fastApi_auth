@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ title }}</title>
+
+    <link rel="stylesheet" href="/static/style.css">
+
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+    <!-- Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- Particles -->
+    <script src="https://cdn.jsdelivr.net/npm/tsparticles@2/tsparticles.bundle.min.js"></script>
+</head>
+<body>
+
+<!-- Particle background -->
+<div id="particles"></div>
+
+<div class="container">
+
+    <h1 class="title">🚀 Advanced Authentication System</h1>
+
+    <p class="subtitle">
+        Secure • Scalable • Production-ready authentication architecture
+    </p>
+
+    <!-- Glow orb -->
+    <div class="glow"></div>
+
+    <!-- Feature cards -->
+    <div class="features">
+
+        <div class="card">
+            <i data-lucide="lock"></i>
+            <h3>JWT Security</h3>
+            <p>Token rotation, refresh strategy & hardened auth flows.</p>
+        </div>
+
+        <div class="card">
+            <i data-lucide="shield-check"></i>
+            <h3>Authorization</h3>
+            <p>Role-based access control & permission management.</p>
+        </div>
+
+        <div class="card">
+            <i data-lucide="cpu"></i>
+            <h3>Session Intelligence</h3>
+            <p>Device tracking, session lifecycle & anomaly detection.</p>
+        </div>
+
+    </div>
+
+    <!-- Buttons -->
+    <div class="buttons">
+        <a href="/docs" class="btn">API Docs</a>
+        <a href="/redoc" class="btn secondary">ReDoc</a>
+    </div>
+
+</div>
+
+<script src="/static/script.js"></script>
+<script>
+    lucide.createIcons();
+</script>
+
+</body>
+</html>

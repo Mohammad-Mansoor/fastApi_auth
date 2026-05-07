@@ -1,0 +1,72 @@
+# =========================
+# CORE FASTAPI STACK
+# =========================
+fastapi
+uvicorn[standard]
+
+# =========================
+# DATABASE (PostgreSQL + ORM)
+# =========================
+sqlalchemy>=2.0
+asyncpg
+alembic
+
+# =========================
+# AUTH / SECURITY
+# =========================
+python-jose[cryptography]
+passlib[bcrypt]
+bcrypt
+itsdangerous
+
+# =========================
+# REDIS
+# =========================
+redis>=5.0.0
+
+# =========================
+# RABBITMQ (EVENT BUS)
+# =========================
+aio-pika
+
+# =========================
+# WEBSOCKETS / REALTIME
+# =========================
+websockets
+
+# =========================
+# FILE UPLOADS
+# =========================
+python-multipart
+aiofiles
+
+# =========================
+# MONITORING (PROMETHEUS)
+# =========================
+prometheus-client
+
+# =========================
+# CONFIG MANAGEMENT
+# =========================
+pydantic
+pydantic-settings
+
+# =========================
+# BACKGROUND TASKS (OPTIONAL)
+# =========================
+celery
+redis
+
+# =========================
+# TESTING
+# =========================
+pytest
+httpx
+pytest-asyncio
+
+# =========================
+# CODE QUALITY (OPTIONAL DEV TOOLS)
+# =========================
+black
+isort
+flake8
