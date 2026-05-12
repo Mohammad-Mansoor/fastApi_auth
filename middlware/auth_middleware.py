@@ -3,20 +3,32 @@ from fastapi import Request
 from fastapi.responses import JSONResponse
 from core.security import verify_access_token
 
+
+PUBLIC_EXACT = {
+    "/static",
+    "/favicon.ico",
+}
+
 EXCLUDED_PATHS = [
-    # "/",
+    "/",
+    "/health-check",
     "/auth/login",
     "/forgot-password",
     "/docs",
-    "/openapi.json"
+    "/openapi.json",
+     
 ]
 
 class SecurityMiddleware(BaseHTTPMiddleware):
     async def dispatch(self, request: Request, call_next):
 
         # ✅ Skip public routes
-        if any(request.url.path.startswith(p) for p in EXCLUDED_PATHS):
+        if any(request.url.path.startswith(p) for p in PUBLIC_EXACT):
             return await call_next(request)
+        
+        if request.url.path in EXCLUDED_PATHS:
+            return await call_next(request)
+
 
         # ✅ Check Authorization
         auth = request.headers.get("authorization")
