@@ -32,7 +32,7 @@ origins = [
     "http://localhost:3000",   # React
     "http://127.0.0.1:3000",
     "http://localhost:5173",   # Vite
-    "https://yourdomain.com",  # Production frontend
+    "https://authui-eta.vercel.app/",  # Production frontend
 ]
 app.include_router(api_router)
 app.add_middleware(

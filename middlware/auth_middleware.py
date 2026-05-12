@@ -16,6 +16,7 @@ EXCLUDED_PATHS = [
     "/forgot-password",
     "/docs",
     "/openapi.json",
+    "/redoc"
      
 ]
 
