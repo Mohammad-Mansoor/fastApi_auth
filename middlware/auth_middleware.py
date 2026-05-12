@@ -21,6 +21,11 @@ EXCLUDED_PATHS = [
 
 class SecurityMiddleware(BaseHTTPMiddleware):
     async def dispatch(self, request: Request, call_next):
+        
+        method = request.method
+        # ✅ 1. ALWAYS allow OPTIONS (CORS preflight)
+        if method == "OPTIONS":
+            return await call_next(request)
 
         # ✅ Skip public routes
         if any(request.url.path.startswith(p) for p in PUBLIC_EXACT):
