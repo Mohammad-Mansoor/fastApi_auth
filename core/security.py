@@ -7,8 +7,7 @@ from jwt.exceptions import ExpiredSignatureError, InvalidTokenError
 
 
 pwd_context = CryptContext(
-    schemes=["bcrypt"],
-    bcrypt__rounds=settings.BCRYPT_ROUNDS,
+    schemes=["argon2"],
     deprecated="auto"
 )
 

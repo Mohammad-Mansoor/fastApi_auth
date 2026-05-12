@@ -6,6 +6,7 @@ uvicorn[standard]
 jinja2
 email-validator
 PyJWT
+argon2-cffi
 
 # =========================
 # DATABASE (PostgreSQL + ORM)
