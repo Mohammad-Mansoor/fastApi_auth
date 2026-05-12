@@ -4,6 +4,7 @@
 fastapi
 uvicorn[standard]
 jinja2
+email-validator
 
 # =========================
 # DATABASE (PostgreSQL + ORM)
