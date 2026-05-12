@@ -1,8 +1,9 @@
 from pydantic import BaseModel, EmailStr
 from datetime import datetime
-from typing import Optional
+from typing import Optional, List
 import uuid
 from uuid import UUID
+from core.schemas import Meta
 
 # 🔹 Create User
 class UserCreate(BaseModel):
@@ -18,7 +19,6 @@ class UserCreate(BaseModel):
     isActive: bool = True
     isSuperAdmin: bool = False
 
-
 class UserNotificationOut(BaseModel):
     id: UUID
     userId: UUID
@@ -33,7 +33,6 @@ class UserNotificationOut(BaseModel):
         "from_attributes": True
     }
 
-# 🔹 Response
 class UserOut(BaseModel):
     id: UUID
     firstName: str
@@ -43,10 +42,8 @@ class UserOut(BaseModel):
     telegramUsername: str | None = None
     telegramChatId: str | None = None
     telegramUserId: str | None = None
-
     isActive: bool
     isSuperAdmin: bool
-
     createdAt: datetime
     updatedAt: datetime
 
@@ -54,6 +51,10 @@ class UserOut(BaseModel):
     model_config = {
         "from_attributes": True
     }
+
+
+# 🔹 Response
+
 
     
 
@@ -63,6 +64,20 @@ class CreateUserResponse(BaseModel):
     message: str
     data: UserOut
 
+
+class UserListOut(BaseModel):
+    success: bool
+    message: str
+    data: List[UserOut]
+    meta: Meta
+    cached: bool
+    
+class SingleUserOut(BaseModel):
+    success: bool
+    message: str
+    data: UserOut
+    cached: bool
+    
 class UserNotificationCreate(BaseModel):
     userId: UUID
     isWhatsappOn: bool = False

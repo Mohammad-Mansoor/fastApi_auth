@@ -12,6 +12,8 @@ from api_router import api_router
 
 from core.database import Base, engine
 
+from fastapi.middleware.cors import CORSMiddleware
+
 from fastapi.exceptions import RequestValidationError
 from sqlalchemy.exc import SQLAlchemyError, IntegrityError
 
@@ -26,8 +28,20 @@ from core.exceptions.handlers import (
 from middlware.auth_middleware import SecurityMiddleware
 
 app = FastAPI()
-
+origins = [
+    "http://localhost:3000",   # React
+    "http://127.0.0.1:3000",
+    "http://localhost:5173",   # Vite
+    "https://yourdomain.com",  # Production frontend
+]
 app.include_router(api_router)
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 app.add_exception_handler(AppException, app_exception_handler)
 app.add_exception_handler(RequestValidationError, validation_exception_handler)
 app.add_exception_handler(SQLAlchemyError, sqlalchemy_exception_handler)

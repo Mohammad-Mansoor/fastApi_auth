@@ -1,10 +1,11 @@
 from starlette.middleware.base import BaseHTTPMiddleware
 from fastapi import Request
 from fastapi.responses import JSONResponse
+from core.security import verify_access_token
 
 EXCLUDED_PATHS = [
-    "/",
-    "/login",
+    # "/",
+    "/auth/login",
     "/forgot-password",
     "/docs",
     "/openapi.json"
@@ -19,12 +20,25 @@ class SecurityMiddleware(BaseHTTPMiddleware):
 
         # ✅ Check Authorization
         auth = request.headers.get("authorization")
-        if not auth:
+        if not auth or not auth.startswith("Bearer"):
             return JSONResponse(
                 status_code=401,
                 content={"success": False, "message": "Authorization required"}
             )
+            
+        token = auth.split(" ")[1]
+        print("only token✅✅✅", token)
 
+        jwt_verification = verify_access_token(token)
+        print("this is the result o fjwt_verification: ", jwt_verification)
+        
+        if not jwt_verification:
+            return JSONResponse(
+                status_code=401,
+                content={"success": False, "message": "UnAuthorized please relogin"}
+            )
+            
+        request.state.userId = jwt_verification.get("userId")
         # ✅ Check device headers
         required_headers = [
             "x-fingerprint",
@@ -32,14 +46,19 @@ class SecurityMiddleware(BaseHTTPMiddleware):
             "x-device-type",
             "x-os",
             "x-browser",
-            "x-client-id"
+            "x-client-id",
+            "x-source",
+            "x-ip",
+            "x-userAgent"
+            
+            
         ]
 
-        for h in required_headers:
-            if not request.headers.get(h):
-                return JSONResponse(
-                    status_code=400,
-                    content={"success": False, "message": f"Missing header: {h}"}
-                )
+        # for h in required_headers:
+        #     if not request.headers.get(h):
+        #         return JSONResponse(
+        #             status_code=400,
+        #             content={"success": False, "message": f"Missing header: {h}"}
+        #         )
 
         return await call_next(request)

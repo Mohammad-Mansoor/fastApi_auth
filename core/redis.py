@@ -12,11 +12,16 @@ from core.config import settings
 # - Improves performance (important for auth system)
 # =========================================================
 
-redis_client = redis.Redis(
-    host=settings.REDIS_URL.split("://")[1].split(":")[0],  
-    port=int(settings.REDIS_URL.split(":")[-1].split("/")[0]),
-    db=0,
-    decode_responses=True  # returns strings instead of bytes
+# redis_client = redis.Redis(
+#     host=settings.REDIS_URL.split("://")[1].split(":")[0],  
+#     port=int(settings.REDIS_URL.split(":")[-1].split("/")[0]),
+#     db=0,
+#     decode_responses=True  # returns strings instead of bytes
+# )
+
+redis_client = redis.Redis.from_url(
+    settings.REDIS_URL,
+    decode_responses=True
 )
 
 # =========================================================

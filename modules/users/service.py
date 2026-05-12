@@ -4,12 +4,13 @@ from core.exceptions.app_exception import AppException
 from core.schemas import QueryOptionsDto
 from .repository import UserRepository
 from .models import UserNotifications
-from .schemas import UserCreate,UserOut
+from .schemas import UserCreate,UserOut,UserListOut
 from common.utils.generatePassword import generate_password
 from core.security import hash_password
 from infrastructure.redis.service import RedisCacheService
 from infrastructure.redis.keys import SessionCacheKeys, UsersCacheKeys
 from common.query_builder.query_builder import QueryConfig
+from fastapi.encoders import jsonable_encoder
 
 class UserService:
 
@@ -71,7 +72,7 @@ class UserService:
         print("this is userid inside serviec: ", userId)
         async def queryDB ():
             user = await self.userRepo.get_user_by_id(db, userId)
-            clean_value = UserOut.model_validate(user).model_dump()
+            clean_value = jsonable_encoder(user)
             return clean_value
         
         result = await self.redisCacheService.get_or_set(sing_user_cache_key, queryDB)
@@ -79,10 +80,12 @@ class UserService:
         return result
     
     async def get_all_users(self, db:AsyncSession, request: Request, options: QueryOptionsDto = Depends()):
+        
         merged_queries = {
             **dict(request.query_params),
             **options.model_dump(exclude_none=True)
         }
+        cacheKey = UsersCacheKeys.users_list(merged_queries)
         search_able_feilds = [
             "firstName",
             "lastName",
@@ -117,6 +120,10 @@ class UserService:
             # select_fields=select_fields,
             default_sort="createdAt:DESC",
         )
-        
-        result = await self.userRepo.get_all_users(db,merged_queries, queryConfig )
+        async def queryDB ():
+            result = await self.userRepo.get_all_users(db,merged_queries, queryConfig )
+            clean_value = jsonable_encoder(result)
+            return clean_value
+            
+        result  = await self.redisCacheService.get_or_set(cacheKey, queryDB)
         return result

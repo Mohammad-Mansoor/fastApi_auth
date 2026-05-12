@@ -2,6 +2,9 @@ from passlib.context import CryptContext
 from .config import settings
 from datetime import datetime, timedelta
 import jwt
+from jwt.exceptions import ExpiredSignatureError, InvalidTokenError
+# from jose import  JWTError, ExpiredSignatureError
+
 
 pwd_context = CryptContext(
     schemes=["bcrypt"],
@@ -29,6 +32,27 @@ def create_access_token(data: dict):
     return jwt.encode(to_encode, settings.JWT_SECRET_KEY, algorithm=settings.JWT_ALGORITHM)
     # return jwt.encode(to_encode, os.getenv("JWT_SECRET_KEY"), algorithm=os.getenv("JWT_ALGORITHM"))
 
+
+def verify_access_token(token: str):
+    try:
+        payload = jwt.decode(
+            token,
+            settings.JWT_SECRET_KEY,
+            algorithms=[settings.JWT_ALGORITHM]
+        )
+
+        if payload.get("type") != "access":
+            return None
+
+        return payload
+
+    except ExpiredSignatureError:
+        print("Token expired")
+        return None
+
+    except InvalidTokenError:
+        print("Invalid token")
+        return None
 
 def create_refresh_token(data: dict):
     to_encode = data.copy()

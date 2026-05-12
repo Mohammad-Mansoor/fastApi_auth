@@ -9,3 +9,4 @@ class NameSpaces:
     NOTIFICATIONS = "notifications"
     FILES = "files"
     AUDIT = "audit"
+    USER_DEVICE = "userDevices"

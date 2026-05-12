@@ -46,3 +46,15 @@ class Headers(BaseModel):
     os: str
     browser: str
     client_id: str
+    
+    
+class Meta(BaseModel):
+    total: int
+    page: int
+    limit: int
+    totalPages: int
+    hasNextPage: bool
+    hasPreviousPage: bool
+    model_config = {
+        "from_attributes": True
+    }
