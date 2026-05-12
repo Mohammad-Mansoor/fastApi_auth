@@ -47,6 +47,13 @@ class Settings(BaseSettings):
     # =====================
     UPLOAD_DIR: str = "uploads"
     MAX_FILE_SIZE_MB: int = 10
+    
+    
+    # =========================
+    # SUPER-ADMIN CREDENTIALS
+    # =========================
+    EMAIL: str = "mmsafi5207@gmail.com"
+    PASSWORD:str="Janemasti@5207"
 
 
 settings = Settings()
