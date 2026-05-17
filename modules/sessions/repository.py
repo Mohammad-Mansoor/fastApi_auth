@@ -35,6 +35,11 @@ class SessionRepository:
         )
         result  = await query.get_many_and_meta()
         return result
+    
+    async def get_all_active_session_of_user(self, db:AsyncSession, userId:str):
+        result = await db.execute(select(Session).where(Session.userId == userId, Session.isValid == True))
+        user_sessions = result.sacalrs().all()
+        return user_sessions
         ...
     async def revoke_session(self, db:AsyncSession, sessionId: str, revokeReason:str):
         

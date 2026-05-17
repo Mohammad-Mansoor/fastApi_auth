@@ -57,6 +57,7 @@ class SecurityMiddleware(BaseHTTPMiddleware):
             )
             
         request.state.userId = jwt_verification.get("userId")
+        request.state.sessionId = jwt_verification.get("sessionId")
         # ✅ Check device headers
         required_headers = [
             "x-fingerprint",
