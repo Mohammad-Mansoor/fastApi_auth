@@ -14,9 +14,9 @@ engine = create_async_engine(
     settings.DATABASE_URL,
     echo=settings.DEBUG,   # logs SQL queries in dev
     pool_pre_ping=True,    # checks DB connection health
-    connect_args={
-        "ssl": "require"
-    }
+    # connect_args={
+    #     "ssl": "require"
+    # }
 )
 
 # =========================
